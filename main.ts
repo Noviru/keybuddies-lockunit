@@ -3,7 +3,6 @@ function decrypt_key (num: number) {
 }
 function locked () {
     lockStatus = 0
-    radio.sendNumber(lockStatus)
 }
 radio.onReceivedValue(function (name, value) {
     tmpValue = value
