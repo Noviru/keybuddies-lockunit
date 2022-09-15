@@ -17,12 +17,7 @@ function key_exchange (key: string, value: number) {
         secret_key = keygen(public_key_answer, p, private_key)
     } else if (key == "hidden") {
         key_auth = binary_to_dec(xor_cipher(dec_to_binary(value), dec_to_binary(secret_key)))
-        radio.setGroup(92)
-    } else if (key == "hidden_guest") {
-        key_auth_guest = binary_to_dec(xor_cipher(dec_to_binary(value), dec_to_binary(secret_key)))
-        radio.setGroup(92)
-    } else {
-    	
+        secret_key = 0
     }
 }
 function dec_to_binary (num: number) {
@@ -81,8 +76,8 @@ function binary_to_dec (binary_list: any[]) {
 }
 radio.onReceivedValue(function (name, value) {
     key_exchange(name, value)
-    if (key_auth > 0 || key_auth_guest > 0) {
-        if ((key_auth_guest == master_key || key_auth == master_key) && lockStatus == 0) {
+    if (key_auth > 0) {
+        if (key_auth == master_key && lockStatus == 0) {
             unlocked()
             locked()
         } else {
@@ -91,11 +86,10 @@ radio.onReceivedValue(function (name, value) {
     }
 })
 function wrongKey () {
-    radio.setGroup(91)
     radio.sendValue("status", lockStatus)
+    key_auth = 0
     basic.showIcon(IconNames.No)
     basic.clearScreen()
-    radio.setGroup(90)
 }
 function double_to_int (db: number) {
     if (db % 2 == 0) {
@@ -106,7 +100,6 @@ function double_to_int (db: number) {
     return int
 }
 function unlocked () {
-    radio.setGroup(91)
     lockStatus = 1
     key_auth = 0
     radio.sendValue("status", lockStatus)
@@ -115,14 +108,12 @@ function unlocked () {
         basic.pause(5000)
     }
     basic.clearScreen()
-    radio.setGroup(90)
 }
 let decimal = 0
 let int = 0
 let i = 0
 let n = 0
 let binary_key: number[] = []
-let key_auth_guest = 0
 let key_auth = 0
 let secret_key = 0
 let public_key_answer = 0
@@ -133,10 +124,10 @@ let p_k = 0
 let lockStatus = 0
 let private_key = 0
 let master_key = 0
+radio.setGroup(90)
 master_key = 15
 private_key = randint(1, 10)
 lockStatus = 0
-radio.setGroup(90)
 basic.forever(function () {
 	
 })
