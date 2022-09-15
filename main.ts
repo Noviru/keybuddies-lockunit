@@ -58,9 +58,9 @@ function xor_cipher (list1: number[], list2: number[]) {
             basic.pause(500)
         }
     }
-    for (let index = 0; index <= 4; index++) {
-        if (result[index] == 1) {
-            led.toggle(index, 4)
+    for (let index2 = 0; index2 <= 4; index2++) {
+        if (result[index2] == 1) {
+            led.toggle(index2, 4)
             basic.pause(500)
         }
     }
@@ -69,8 +69,8 @@ function xor_cipher (list1: number[], list2: number[]) {
 function binary_to_dec (binary_list: any[]) {
     decimal = 0
     binary_list.reverse()
-    for (let index = 0; index <= binary_list.length - 1; index++) {
-        decimal = decimal + binary_list[index] * 2 ** index
+    for (let index3 = 0; index3 <= binary_list.length - 1; index3++) {
+        decimal = decimal + binary_list[index3] * 2 ** index3
     }
     return decimal
 }
